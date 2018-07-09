@@ -285,7 +285,7 @@ function update_config() {
   cat << EOF >> $CONFIGFOLDER/$CONFIG_FILE
 logintimestamps=1
 maxconnections=256
-#bind=$NODEIP
+bind=$NODEIP
 masternode=1
 externalip=$NODEIP:$COIN_PORT
 masternodeprivkey=$COINKEY
@@ -336,62 +336,10 @@ function get_ip() {
 
   if [ ${#NODE_IPS[@]} -gt 1 ]
     then
-      echo -e "${GREEN}More than one IP. Please type 0 to use the first IP, 1 for the second and so on...${NC}"
-      INDEX=0
-      for ip in "${NODE_IPS[@]}"
-      do
-        echo ${INDEX} $ip
-        let INDEX=${INDEX}+1
-      done
-      read -e choose_ip
-      NODEIP=${NODE_IPS[$choose_ip]}
-  else
     NODEIP=${NODE_IPS[0]}
-  fi
-}
-
-function get_ip() {
-  declare -a NODE_IPS2
-  for ips in $(netstat -i | awk '!/Kernel|Iface|lo/ {print $1," "}')
-  do
-    NODE_IPS+=($(curl --interface $ips --connect-timeout 2 -s4 api.ipify.org))
-  done
-
-  if [ ${#NODE_IPS[@]} -gt 1 ]
-    then
-      echo -e "${GREEN}More than one IP. Please type 0 to use the first IP, 1 for the second and so on...${NC}"
-      INDEX=0
-      for ip in "${NODE_IPS[@]}"
-      do
-        echo ${INDEX} $ip2
-        let INDEX=${INDEX}+1
-      done
-      read -e choose_ip
-      NODEIP2=${NODE_IPS2[$choose_ip]}
-  else
-    NODEIP2=${NODE_IPS[0]}
-  fi
-}
-
-function get_ip() {
-  declare -a NODE_IPS
-  for ips in $(netstat -i | awk '!/Kernel|Iface|lo/ {print $1," "}')
-  do
-    NODE_IPS+=($(curl --interface $ips --connect-timeout 2 -s4 api.ipify.org))
-  done
-
-  if [ ${#NODE_IPS[@]} -gt 1 ]
-    then
-      echo -e "${GREEN}More than one IP. Please type 0 to use the first IP, 1 for the second and so on...${NC}"
-      INDEX=0
-      for ip in "${NODE_IPS[@]}"
-      do
-        echo ${INDEX} $ip
-        let INDEX=${INDEX}+1
-      done
-      read -e choose_ip
-      NODEIP=${NODE_IPS[$choose_ip]}
-  else
+    NODEIP2=${NODE_IPS[1]}
+    NODEIP3=${NODE_IPS[2]}
+   else
     NODEIP=${NODE_IPS[0]}
   fi
 }
@@ -473,11 +421,19 @@ function important_information() {
 function setup_node() {
   get_ip
   create_config
+  create_config2
+  create_config3
   create_key
+  create_key2
+  create_key3
   update_config
+  update_config2
+  update_config3
   enable_firewall
   important_information
   configure_systemd
+  configure_systemd2
+  configure_systemd3
 }
 
 
