@@ -6,7 +6,9 @@ This will setup 3 MOG MNS on a VPS with 3 IPS, you will be required to enter the
 Adds syslink (done for you in script)
 
 systemctl enable mogwai.service
+
 systemctl enable mogwai2.service 
+
 systemctl enable mogwai3.service
 
 Starts the MNs (done for you in script)
