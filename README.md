@@ -11,9 +11,9 @@ systemctl enable mogwai3.service
 
 Starts the MNs (done for you in script)
 
-systemctl start mogwai.service
-systemctl enable mogwai2.service
-systemctl enable mogwai3.service
+systemctl start mogwai.service;
+systemctl enable mogwai2.service;
+systemctl enable mogwai3.service;
 
 Check status of MNS
 
