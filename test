@@ -285,9 +285,9 @@ function update_config() {
   cat << EOF >> $CONFIGFOLDER/$CONFIG_FILE
 logintimestamps=1
 maxconnections=256
-bind=$NODEIP
+bind=$IP
 masternode=1
-externalip=$NODEIP:$COIN_PORT
+externalip=$IP:$COIN_PORT
 masternodeprivkey=$COINKEY
 EOF
 }
@@ -297,9 +297,9 @@ function update_config2() {
   cat << EOF >> $CONFIGFOLDER2/$CONFIG_FILE
 logintimestamps=1
 maxconnections=256
-bind=$NODEIP2
+bind=$IP2
 masternode=1
-externalip=$NODEIP2:$COIN_PORT
+externalip=$IP2:$COIN_PORT
 masternodeprivkey=$COINKEY2
 EOF
 }
@@ -309,9 +309,9 @@ function update_config3() {
   cat << EOF >> $CONFIGFOLDER3/$CONFIG_FILE
 logintimestamps=1
 maxconnections=256
-bind=$NODEIP3
+bind=$IP3
 masternode=1
-externalip=$NODEIP3:$COIN_PORT
+externalip=$IP3:$COIN_PORT
 masternodeprivkey=$COINKEY3
 EOF
 }
@@ -328,29 +328,15 @@ function enable_firewall() {
 
 
 function get_ip() {
-  declare -a NODE_IPS
-  for ips in $(netstat -i | awk '!/Kernel|Iface|lo/ {print $1," "}')
-  do
-    NODE_IPS+=($(curl --interface $ips --connect-timeout 2 -s4 api.ipify.org))
-  done
-
-  if [ ${#NODE_IPS[@]} -gt 1 ]
-    then
-    NODEIP=${NODE_IPS[0]}
-    NODEIP2=${NODE_IPS[1]}
-    NODEIP3=${NODE_IPS[2]}
-   else
-    NODEIP=${NODE_IPS[0]}
-  fi
+  echo -e "Enter the IP for ${RED}$COIN_NAME ${NC}:"
+  read -e IP
+  echo -e "Enter the IP for ${RED}$COIN_NAME2 ${NC}:"
+  read -e IP2
+  echo -e "Enter the IP for ${RED}$COIN_NAME3 ${NC}:"
+  read -e IP3
+clear
 }
 
-function compile_error() {
-if [ "$?" -gt "0" ];
- then
-  echo -e "${RED}Failed to compile $COIN_NAME. Please investigate.${NC}"
-  exit 1
-fi
-}
 
 
 function checks() {
